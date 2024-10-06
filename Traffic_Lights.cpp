@@ -25,7 +25,7 @@ void solve()
 
     for(int k=1; k<=q; k++)
     {
-        //cout<<k<<endl;
+      
         int x;
         cin>>x;
         auto it=s.lower_bound(x);
