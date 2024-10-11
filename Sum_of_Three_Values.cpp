@@ -17,31 +17,55 @@ const int N=1e5;
 
 void solve()
 {
-    ll n,target;
-    cin>>n>>target;
-    map<ll,int>mp;
+    ll n,x;
+    cin>>n>>x;
     vector<ll>v(n);
-    for(int i=0; i<n; i++)
+    map<ll,vector<int>>mp;
+    for(int i=1; i<=n; i++)
     {
-        cin>>v[i];
-        mp[v[i]]=i+1;
+        cin>>v[i-1];
+        // storing the position.
+       mp[v[i-1]].push_back(i);
     }
-    for(int i=0; i<n; i++)
+
+    sort(all(v));
+
+    for(int i=0; i<n-2; i++)
     {
-        for(int j=i+1; j<n; j++)
+        for(int j=i+1; j<n-1; j++)
         {
-            ll need=target-(v[i]+v[j]);
-            int idx=mp[need];
-            if(idx!=0 and idx!=(i+1) and idx!=(j+1))
+            ll target=x-(v[i]+v[j]);
+            int hi=n-1,lo=j+1;
+            while(lo<=hi)
             {
-                cout<<i+1<<" "<<j+1<<" "<<idx<<endl;
-                return;
+                int mid=(hi+lo)/2;
+                if(v[mid]==target)
+                {
+                    vector<int>ans;
+                    ans.push_back(mp[v[i]].back());
+                    mp[v[i]].pop_back();
+                    ans.push_back(mp[v[j]].back());
+                    mp[v[j]].pop_back();
+                    ans.push_back(mp[v[mid]].back());
+                    sort(all(ans));
+                    printv(ans);
+                    
+                    return;
+                }
+                else if(v[mid]<target)
+                {
+                    lo=mid+1;
+                }
+                else
+                {
+                    hi=mid-1;
+                }
             }
         }
+        
     }
-    cout<<"IMPOSSIBLE";
-    return;
-    
+    cout<<"IMPOSSIBLE\n";
+
 }
 
 
