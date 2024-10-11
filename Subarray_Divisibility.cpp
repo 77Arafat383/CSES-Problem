@@ -10,29 +10,36 @@ const int M =  1e9+7;
 #define rev(v) reverse(all(v));
 #define printv(a)  for(auto it:a) cout<<it<<' '; cout<<endl
 #define printm(a)  for(auto it:a) cout<<it.first<<' '<<it.second<<endl
-const int N=1e5;
+const ll N=1e9;
 
 
 
 
 void solve()
 {
-    ll n,sum;
-    cin>>n>>sum;
+    ll n;
+    cin>>n;
     vector<ll>v(n+1);
-    for(int i=1;i<=n;  i++) cin>>v[i];
-    for(int i=1; i<=n; i++) v[i]+=v[i-1];
-    ll ans=0;
-    map<ll,ll>mp;
-    for(int i=0; i<=n; i++)
+    for(int i=1; i<=n; i++) cin>>v[i];
+    ll sum=0;
+    for(int i=1; i<=n; i++)
     {
-        ans+=mp[v[i]-sum];
+        sum=(sum+v[i]+N*n)%n;
+        v[i]=sum;
+
+    }
+    ll ans=0;
+   // printv(v);
+    map<ll,ll>mp;
+   // printv(v);
+    for(int i=0; i<=n; i++) 
+    {
+        ans+=mp[v[i]];
         mp[v[i]]++;
     }
-   
-
-    
+    // printm(mp);
     cout<<ans<<endl;
+    
 }
 
 

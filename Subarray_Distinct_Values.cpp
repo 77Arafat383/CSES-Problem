@@ -17,22 +17,37 @@ const int N=1e5;
 
 void solve()
 {
-    ll n,sum;
-    cin>>n>>sum;
+    int n,k;
+    cin>>n>>k;
     vector<ll>v(n+1);
-    for(int i=1;i<=n;  i++) cin>>v[i];
-    for(int i=1; i<=n; i++) v[i]+=v[i-1];
-    ll ans=0;
-    map<ll,ll>mp;
-    for(int i=0; i<=n; i++)
+    for(int i=1; i<=n; i++)
     {
-        ans+=mp[v[i]-sum];
-        mp[v[i]]++;
+        cin>>v[i];
     }
-   
-
-    
+    set<ll>s;
+    ll ans=0;
+    ll st=1,en=1;
+    map<ll,ll>mp;
+    while(en<=n)
+    {
+        s.insert(v[en]);
+        mp[v[en]]++;
+        en++;
+        while(s.size()>k and st<en)
+        {
+            mp[v[st]]--;
+            if(mp[v[st]]==0)
+            {
+                s.erase(v[st]);
+            }
+            st++;
+            
+        }
+       
+        ans+=en-st;
+    }
     cout<<ans<<endl;
+
 }
 
 
