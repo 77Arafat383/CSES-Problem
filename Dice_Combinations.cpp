@@ -13,25 +13,26 @@ const int M =  1e9+7;
 const int N=1e5;
 
 
+// using recursive formate.. 
+
 
 
 void solve()
 {
-    ll n;
+    int n;
     cin>>n;
-    vector<ll>v(n+1);
-    map<ll,ll>mp;
-    for(int i=1; i<=n; i++) 
-    {
-        cin>>v[i];
-        mp[v[i]]=i;
-    }
-    ll ans=1;
+    vector<ll>dp(n+10,0);
+    dp[0]=1;
     for(int i=1; i<=n; i++)
     {
-        if(mp[v[i]]<mp[v[i]-1]) ans++;
+        for(int j=1; j<=6; j++)
+        {
+           if(i-j>=0)
+            dp[i]=(dp[i]+dp[i-j])%M;
+        }
     }
-    cout<<ans<<endl;
+    cout<<dp[n]<<endl;
+
 }
 
 

@@ -17,21 +17,25 @@ const int N=1e5;
 
 void solve()
 {
-    ll n;
-    cin>>n;
-    vector<ll>v(n+1);
-    map<ll,ll>mp;
-    for(int i=1; i<=n; i++) 
+    int n,m;
+    cin>>n>>m;
+    vector<ll>v,tem;
+    for(int i=0; i<n; i++) 
     {
-        cin>>v[i];
-        mp[v[i]]=i;
+        int x;
+        cin>>x;
+        if(i<m-1)
+        {
+            tem.push_back(x);
+        }
+        v.push_back(x);
     }
-    ll ans=1;
-    for(int i=1; i<=n; i++)
+    sort(all(tem));
+    int mid=(m-1)/2;
+    for(int j=0,i=m-1; i<n; i++,j++)
     {
-        if(mp[v[i]]<mp[v[i]-1]) ans++;
+        
     }
-    cout<<ans<<endl;
 }
 
 

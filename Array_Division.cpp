@@ -12,24 +12,49 @@ const int M =  1e9+7;
 #define printm(a)  for(auto it:a) cout<<it.first<<' '<<it.second<<endl
 const int N=1e5;
 
+bool calculation(vector<ll>&v,ll &n,ll &mid, ll &k)
+{
+    ll part=0;
+    ll sum=0;
+    for(int i=0; i<n; i++)
+    {
+        sum+=v[i];
+        if(sum>mid)
+        {
+            part++;
+            sum=v[i];
+        }
 
+
+    }
+    if(sum>0) part++;
+    return (part<=k);
+}
 
 
 void solve()
 {
-    ll n;
-    cin>>n;
-    vector<ll>v(n+1);
-    map<ll,ll>mp;
-    for(int i=1; i<=n; i++) 
+    ll n,k;
+    cin>>n>>k;
+    vector<ll>v(n);
+    for(auto &it:v) cin>>it;
+    ll lo=*max_element(all(v));
+    ll hi=0;
+    for(auto &it:v) hi+=it;
+    ll ans=0;
+    while(lo<=hi)
     {
-        cin>>v[i];
-        mp[v[i]]=i;
-    }
-    ll ans=1;
-    for(int i=1; i<=n; i++)
-    {
-        if(mp[v[i]]<mp[v[i]-1]) ans++;
+        ll mid=(lo+hi)/2;
+        if(calculation(v,n,mid,k))
+        {
+            ans=mid;
+            hi=mid-1;
+        }
+        else
+        {
+           lo=mid+1;
+        }
+
     }
     cout<<ans<<endl;
 }
