@@ -19,89 +19,32 @@ void solve()
 {
     int n,q;
     cin>>n>>q;
-    set<int>sz;
-    map<int,int>mp;
-    set<int>s;
-
-    for(int k=1; k<=q; k++)
+    set<pair<int,int>>s;
+    multiset<int>length;
+    s.insert({0,n});
+    length.insert(n);
+    w(q)
     {
-      
-        int x;
-        cin>>x;
-        auto it=s.lower_bound(x);
-        if(s.empty())
-        {
-           sz.insert(x);
-           sz.insert(n-x);
-           mp[x]++;
-           mp[n-x]++;
-           s.insert(x);
-          
-        }
-        else if(it==s.end())
-        {
-            --it;
-            int dif=n-*it;
-            mp[dif]--;
-            if(mp[dif]==0)
-            {
+        int p;
+        cin>>p;
+        
+               auto it=s.upper_bound({p,0});
+               it--;
                
-                   sz.erase(dif);
-                   
-                 
-            }
-           
-            int nw1=x-*it;
-            int nw2=n-x;
-            sz.insert(nw1);
-            sz.insert(nw2);
-            mp[nw1]++;
-            mp[nw2]++;
-            s.insert(x);
-        }
-        else if(it==s.begin())
-        {
-            int dif=*it;
-            mp[dif]--;
-            if(mp[dif]==0)
-            {
-                   sz.erase(dif);
-                  
-            }
-           
-            sz.insert(x);
-            mp[x]++;
-            sz.insert(*it-x);
-            mp[*it-x]++;
-
-            s.insert(x);
-        }
-        else
-        {
-             int j=*it;
-             it--;
-             int i=*it;
-             int dif=j-i;
-             mp[dif]--;
-            if(mp[dif]==0)
-            {
-                   sz.erase(dif);
-              
-            }
-             mp[x-i]++;
-             mp[j-x]++;
-             sz.insert(x-i);
-             sz.insert(j-x);
-             s.insert(x);
-
-        }
-       // printv(sz);
-       int ans=*max_element(all(sz));
-        //cout<<sz.size()<<endl;
-       cout<<ans<<" ";
-
+                s.insert({it->first,p});
+                s.insert({p,it->second});
+                auto bt=length.upper_bound(it->second-it->first);
+                bt--;
+                length.erase(bt);
+                length.insert(p-it->first);
+                length.insert(it->second-p);
+                cout<<*length.rbegin()<<" ";
+                 s.erase({it->first,it->second});
+                
+       
     }
-   // cout<<sz.size()<<endl;
+    cout<<endl;
+
 }
 
 
