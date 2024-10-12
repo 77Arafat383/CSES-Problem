@@ -1,0 +1,61 @@
+//**************BISMILLAHIR RAHMANIR RAHIM****************
+#include<bits/stdc++.h>
+using namespace std;
+#define check cout<<'?'<<endl;
+#define    ll               long long
+const int M =  1e9+7;
+#define    all(x)           x.begin(), x.end()
+#define    w(x)             while(x--)
+#define    pi               acos(-1.00)
+#define rev(v) reverse(all(v));
+#define printv(a)  for(auto it:a) cout<<it<<' '; cout<<endl
+#define printm(a)  for(auto it:a) cout<<it.first<<' '<<it.second<<endl
+const int N=1e5;
+
+void f(int row,vector<string>&board, vector<bool>&col,vector<bool>&pri,vector<bool>&sec,int &ans)
+{
+    if(row==8)
+    {
+        ans=(ans+1)%M;
+        return ;
+    }
+
+    for(int colm=0; colm<8; colm++)
+    {
+        if(board[row][colm]=='*' or col[colm] or pri[row-colm+8] or sec[row+colm]) continue ;
+        col[colm]=pri[row-colm+8]=sec[row+colm]=true;
+        f(row+1,board,col,pri,sec,ans);
+        col[colm]=pri[row-colm+8]=sec[row+colm]=false;  //backtraking;;;
+    }
+    return;
+}
+
+
+void solve()
+{
+    vector<string>board(8);
+    for(int i=0; i<8; i++)
+    {
+        cin>>board[i];
+
+    }
+    vector<bool>col(10,false),primary(10,false),secondary(10,false);
+    int ans=0;
+    f(0,board,col,primary,secondary,ans);
+    cout<<ans<<endl;
+    
+}
+
+
+signed main()
+{
+ ios_base::sync_with_stdio(false) , cin.tie(NULL);
+int t;
+t=1;
+for(int i=1; i<=t; i++) 
+{
+//cout<<'t'<<i<<endl;
+solve();
+}
+    return 0;
+}
