@@ -13,34 +13,71 @@ const int M =  1e9+7;
 const int N=1e5;
 
 
-int f(int x, int y,int n, vector<vector<char>>&grid,vector<vector<int>>&dp)
+void f(int idx, int x, int y, string &str, ll &ans)
 {
-    
-    if(x==n-1 and y==n-1 and grid[x][y]!='*') return 1;
-    if(x==n or y==n) return 0;
-    if(grid[x][y]=='*') return 0;
-    if(dp[x][y]!=-1) return dp[x][y];
-    int ans=0;
-    ans=(ans+f(x+1,y,n,grid,dp))%M;
-    ans=(ans+f(x,y+1,n,grid,dp))%M;
-    return dp[x][y]=ans;
+    if(x==6 and y==0 and idx==str.size())
+    {
+        ans++;
+        return ;
+    }
+    if(x>6 or x<0 or y>6 or y<0 or idx==str.size())
+    {
+        
+        return;
+    }
+    if(str[idx]!='?')
+    {
+        if(str[idx]=='R') f(idx+1,x+1,y,str,ans);
+        else if(str[idx]=='L') f(idx+1,x-1,y,str,ans);
+        else if(str[idx]=='U') f(idx+1,x,y-1,str,ans);
+        else f(idx+1,x,y+1,str,ans);
+    }
+    else
+    {
+        
+            str[idx]='R';
+            f(idx+1,x+1,y,str,ans);
 
+           str[idx]='L';
+            f(idx+1,x-1,y,str,ans);
+         
+
+            str[idx]='U';
+            f(idx+1,x,y-1,str,ans);
+         
+
+          str[idx]='D';
+            f(idx+1,x,y+1,str,ans);
+        
+    }
 }
 
 void solve()
 {
-    int n;
-    cin>>n;
-    vector<vector<char>>grid(n,vector<char>(n));
-    for(int i=0; i<n; i++)
-    {
-        for(int j=0; j<n; j++) cin>>grid[i][j];
-    }
-    vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
-    cout<<f(0,0,n,grid,dp)<<endl;
-
+    string str;
+    cin>>str;
+    ll ans=0;
+    f(0,0,0,str,ans);
+    cout<<ans<<endl;
+    
 }
 
+void sample()
+{
+    for(int i=0; i<46;  i++)
+    {
+        cout<<'?';
+
+    }
+    cout<<endl;
+    for(int i=1; i<=46; i++)
+    {
+        if(i%4==1) cout<<'R';
+        else if(i%4==2) cout<<'D';
+        else if(i%4==3) cout<<'L';
+        else cout<<'U';
+    }
+}
 
 signed main()
 {
@@ -50,6 +87,7 @@ t=1;
 for(int i=1; i<=t; i++) 
 {
 //cout<<'t'<<i<<endl;
+//sample();
 solve();
 }
     return 0;
