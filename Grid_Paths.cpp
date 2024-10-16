@@ -13,71 +13,77 @@ const int M =  1e9+7;
 const int N=1e5;
 
 
-void f(int idx, int x, int y, string &str, ll &ans)
-{
-    if(x==6 and y==0 and idx==str.size())
-    {
-        ans++;
-        return ;
-    }
-    if(x>6 or x<0 or y>6 or y<0 or idx==str.size())
-    {
-        
-        return;
-    }
-    if(str[idx]!='?')
-    {
-        if(str[idx]=='R') f(idx+1,x+1,y,str,ans);
-        else if(str[idx]=='L') f(idx+1,x-1,y,str,ans);
-        else if(str[idx]=='U') f(idx+1,x,y-1,str,ans);
-        else f(idx+1,x,y+1,str,ans);
-    }
-    else
-    {
-        
-            str[idx]='R';
-            f(idx+1,x+1,y,str,ans);
 
-           str[idx]='L';
-            f(idx+1,x-1,y,str,ans);
-         
-
-            str[idx]='U';
-            f(idx+1,x,y-1,str,ans);
-         
-
-          str[idx]='D';
-            f(idx+1,x,y+1,str,ans);
-        
-    }
-}
 
 void solve()
 {
     string str;
     cin>>str;
-    ll ans=0;
-    f(0,0,0,str,ans);
-    cout<<ans<<endl;
-    
-}
+    vector<vector<vector<ll>>> dp(8,vector<vector<ll>>(8,vector<ll>(50,0)));
+    vector<vector<vector<bool>>> dp(8,vector<vector<bool>>(8,vector<bool>(50,0)));
+    // for(int i=0; i<7; i++)
+    // {
+    //     for(int j=0; j<7; j++)
+    //     {
+    //        for(int idx=0; idx<49; idx++)
+    //        {
+    //           if(i==0 and j==0 and idx==0)
+    //           {
+    //             dp[i][j][idx]=1;
+    //           }
+    //           if(str[idx]=='?')
+    //           {
+    //             if(i+1<=6) dp[i+1][j][idx+1]+=dp[i][j][idx];
+    //             if(i-1>=0) dp[i-1][j][idx+1]+=dp[i][j][idx];
+    //             if(j+1<=6) dp[i][j+1][idx+1]+=dp[i][j][idx];
+    //             if(j-1>=0) dp[i][j-1][idx+1]+=dp[i][j][idx];
+    //           }
+    //           else
+    //           {
+    //              if(str[idx]=='D' and j+1<=6) dp[i][j+1][idx+1]+=dp[i][j][idx];
+    //              else if(str[idx]=='U' and j-1>=0) dp[i][j-1][idx+1]+=dp[i][j][idx];
+    //              else if(str[idx]=='L' and i-1>=0) dp[i-1][j][idx+1]+=dp[i][j][idx];
+    //              else if(str[idx]=='R' and i+1<=6) dp[i+1][j][idx+1]+=dp[i][j][idx];
+    //           }
+    //        }
+    //     }
+    // }
 
-void sample()
-{
-    for(int i=0; i<46;  i++)
+    dp[0][0][0]=1;
+    for(int k=1; k<48; k++)
     {
-        cout<<'?';
+        for(int i=0; i<7; i++)
+        {
+            for(int j=0; j<7; j++)
+            {
+                if(dp[i][j][k]!=0) continue;
+                if(i-1>=0 and (str[k-1]=='R' or str[k-1]=='?')) dp[i][j][k]+=dp[i-1][j][k-1];
+                if(i+1<=6  and (str[k-1]=='L' or str[k-1]=='?')) dp[i][j][k]+=dp[i+1][j][k-1];
+                if(j-1>=0 and (str[k-1]=='D' or str[k-1]=='?')) dp[i][j][k]+=dp[i][j-1][k-1];
+                if(j+1<=6 and (str[k-1]=='U' or str[k-1]=='?')) dp[i][j][k]+=dp[i][j+1][k-1];
+            }
+        }
+    }
 
+
+  cout<<dp[6][0][47]<<endl;
+
+   for(int k=0; k<48; k++)
+   {
+    cout<<"idx= "<<str[k]<<endl;
+    for(int i=0; i<7; i++)
+   {
+    for(int j=0; j<7; j++)
+    {
+        cout<<dp[i][j][k]<<" ";
+        
     }
     cout<<endl;
-    for(int i=1; i<=46; i++)
-    {
-        if(i%4==1) cout<<'R';
-        else if(i%4==2) cout<<'D';
-        else if(i%4==3) cout<<'L';
-        else cout<<'U';
-    }
+   }
+   cout<<endl;
+   }
 }
+
 
 signed main()
 {
@@ -87,7 +93,6 @@ t=1;
 for(int i=1; i<=t; i++) 
 {
 //cout<<'t'<<i<<endl;
-//sample();
 solve();
 }
     return 0;
